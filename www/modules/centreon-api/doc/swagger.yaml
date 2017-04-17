@@ -5,6 +5,7 @@ info:
   version: 1.0.0
 schemes:
   - http
+  - https
 basePath: /centreon/apiv2
 produces:
   - application/json
@@ -15,6 +16,8 @@ securityDefinitions:
     type: apiKey
     in: header
     name: centreon_auth_token
+security:
+  - APIKeyHeader: []
 paths:
   /authenticate:
     post:
@@ -36,8 +39,6 @@ paths:
     post:
       tags:
         - host
-      security:
-        - APIKeyHeader: []
       responses:
         '200':
           description: Successful
@@ -45,14 +46,16 @@ paths:
     post:
       tags:
         - host
-      security:
-        - APIKeyHeader: []
       parameters:
         - in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/Host'
+            type: object
+            properties:
+              values:
+                type: string
+                example: test;Test host;127.0.0.1;generic-host;central;Linux
       responses:
         '200':
           description: Successful
@@ -60,14 +63,489 @@ paths:
     post:
       tags:
         - host
-      security:
-        - APIKeyHeader: []
       parameters:
         - in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/Del'
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/setparam:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;address;127.0.0.1
+      responses:
+        '200':
+          description: Successful
+  /host/setinstance:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;Central 
+      responses:
+        '200':
+          description: Successful
+  /host/getmacro:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/setmacro:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;warning;80;0;description of macro
+      responses:
+        '200':
+          description: Successful
+  /host/delmacro:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;warning
+      responses:
+        '200':
+          description: Successful
+  /host/gettemplate:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/addtemplate:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;srv-Linux
+  /host/settemplate:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;hardware-Dell
+      responses:
+        '200':
+          description: Successful
+  /host/deltemplate:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: test;srv-Linux|hardware-Dell
+      responses:
+        '200':
+          description: Successful
+  /host/applytpl:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: test
+      responses:
+        '200':
+          description: Successful
+  /host/getparent:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: test
+      responses:
+        '200':
+          description: Successful
+  /host/addparent:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: host;hostParent1
+      responses:
+        '200':
+          description: Successful
+  /host/setparent:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: host;hostParent1|hostParent2
+      responses:
+        '200':
+          description: Successful
+  /host/getcontactgroup:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/addcontactgroup:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;Contactgroup1
+      responses:
+        '200':
+          description: Successful
+  /host/setcontactgroup:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;Contactgroup1|Contactgroup2
+      responses:
+        '200':
+          description: Successful
+  /host/getcontact:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/addcontact:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;Contact1
+      responses:
+        '200':
+          description: Successful
+  /host/setcontact:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: string
+                example: Centreon-Server;Contact1|Contact2
+      responses:
+        '200':
+          description: Successful
+  /host/delcontact:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server;Contact2
+      responses:
+        '200':
+          description: Successful
+  /host/gethostgroup:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/addhostgroup:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server;Hostgroup1
+      responses:
+        '200':
+          description: Successful
+  /host/sethostgroup:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server;Hostgroup1|Hostgroup2
+      responses:
+        '200':
+          description: Successful
+  /host/delhostgroup:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server;Hostgroup2
+      responses:
+        '200':
+          description: Successful
+  /host/setseverity:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server;Critical
+      responses:
+        '200':
+          description: Successful
+  /host/unsetseverity:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/enable:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server
+      responses:
+        '200':
+          description: Successful
+  /host/disable:
+    post:
+      tags:
+        - host
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              values:
+                type: object
+                example: Centreon-Server
       responses:
         '200':
           description: Successful
@@ -75,23 +553,7 @@ paths:
     post:
       tags:
         - service
-      security:
-        - APIKeyHeader: []
-      parameters:
       responses:
         '200':
           description: Successful
-definitions:
-  Host:
-    type: object
-    properties:
-      values:
-        type: string
-        example: test;Test host;127.0.0.1;generic-active-host-custom;central;
-  Del:
-    type: object
-    properties:
-      values:
-        type: string
-        example: test
-
+        
