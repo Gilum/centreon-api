@@ -1,0 +1,85 @@
+swagger: '2.0'
+info:
+  title: Centreon API
+  description: Centreon API Document
+  version: 1.0.0
+host: 192.168.1.17
+schemes:
+  - http
+basePath: /centreon/apiv2
+produces:
+  - application/json
+paths:
+  /authenticate:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: username
+          type: string
+          required: true
+        - in: formData
+          name: password
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Successful
+  /host/show:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: centreon_auth_token
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Successful
+  /host/add:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: centreon_auth_token
+          type: string
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Host'
+      responses:
+        '200':
+          description: Successful
+  /service/show:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: centreon_auth_token
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Successful
+definitions:
+  Host:
+    type: object
+    properties:
+      values:
+        type: string
+        example: test;Test host;127.0.0.1;generic-active-host-custom;central;
+
