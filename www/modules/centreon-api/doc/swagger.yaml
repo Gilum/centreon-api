@@ -3,19 +3,23 @@ info:
   title: Centreon API
   description: Centreon API Document
   version: 1.0.0
-host: 192.168.1.17
 schemes:
   - http
 basePath: /centreon/apiv2
 produces:
   - application/json
+consumes:
+  - application/x-www-form-urlencoded
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: centreon_auth_token
 paths:
   /authenticate:
     post:
-      consumes:
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
+      tags:
+        - authenticate
       parameters:
         - in: formData
           name: username
@@ -30,29 +34,20 @@ paths:
           description: Successful
   /host/show:
     post:
-      consumes:
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
-      parameters:
-        - in: header
-          name: centreon_auth_token
-          type: string
-          required: true
+      tags:
+        - host
+      security:
+        - APIKeyHeader: []
       responses:
         '200':
           description: Successful
   /host/add:
     post:
-      consumes:
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
+      tags:
+        - host
+      security:
+        - APIKeyHeader: []
       parameters:
-        - in: header
-          name: centreon_auth_token
-          type: string
-          required: true
         - in: body
           name: body
           required: true
@@ -61,17 +56,28 @@ paths:
       responses:
         '200':
           description: Successful
+  /host/del:
+    post:
+      tags:
+        - host
+      security:
+        - APIKeyHeader: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Del'
+      responses:
+        '200':
+          description: Successful
   /service/show:
     post:
-      consumes:
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
+      tags:
+        - service
+      security:
+        - APIKeyHeader: []
       parameters:
-        - in: header
-          name: centreon_auth_token
-          type: string
-          required: true
       responses:
         '200':
           description: Successful
@@ -82,4 +88,10 @@ definitions:
       values:
         type: string
         example: test;Test host;127.0.0.1;generic-active-host-custom;central;
+  Del:
+    type: object
+    properties:
+      values:
+        type: string
+        example: test
 
